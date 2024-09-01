@@ -10,6 +10,8 @@ services:
     working_dir: /var/www/html
     volumes:
       - .:/var/www/html
+      - /var/www/html/storage
+      - /var/www/html/bootstrap/cache
     networks:
       - app_network
     depends_on:
@@ -23,7 +25,13 @@ services:
       DB_DATABASE: ${DB_DATABASE}
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
-    command: /bin/sh -c "composer install && apache2-foreground"
+    command: >
+      /bin/sh -c "
+      composer install --no-dev --optimize-autoloader &&
+      chown -R www-data:www-data storage bootstrap/cache &&
+      chmod -R 775 storage bootstrap/cache &&
+      apache2-foreground
+      "
 
   db:
     image: mysql:8.0
