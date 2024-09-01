@@ -122,12 +122,18 @@
                     type: 'POST',
                     url: 'api/metrics',
                     data: $(this).serialize(),
-                    success: function (response) {
-                        const data = response.data
+                    success: function(response) {
+                        $('#metrics-form').trigger('reset');
+                        $('#metrics-chart').remove();
+                        $('#metrics-results').prepend('<canvas id="metrics-chart"></canvas>');
+
+                        const data = response.data;
                         renderCharts(data);
+                        $('#save-metric-run').show();
+
                         localStorage.setItem('metricsData', JSON.stringify(data));
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.error('An error occurred: ' + error);
                     }
                 });
