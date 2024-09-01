@@ -7,6 +7,7 @@ use App\Models\Strategy;
 use App\Services\GooglePageSpeedService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Http\Resources\MetricResource;
 
 
 class MetricsController extends Controller
@@ -36,7 +37,7 @@ class MetricsController extends Controller
                 $validated['strategy']
             );
 
-            return response()->json($metrics);
+            return new MetricResource($metrics);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
