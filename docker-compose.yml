@@ -27,7 +27,7 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
     command: >
       /bin/sh -c "
-      composer install --no-dev --optimize-autoloader &&
+      composer install --optimize-autoloader &&
       chown -R www-data:www-data storage bootstrap/cache &&
       chmod -R 775 storage bootstrap/cache &&
       apache2-foreground
