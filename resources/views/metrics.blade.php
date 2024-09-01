@@ -30,6 +30,7 @@
             </div>
             <nav class="my-3">
                 <form id="metrics-form">
+                    @csrf
                     <div id="main-form" class="d-flex row">
                         <div class="col-lg-3 col-md-12 mb-3">
                             <label for="url" class="fieldset-title">URL</label>
@@ -81,18 +82,32 @@
             });
 
             // form submission handler
-            $('#metrics-form').on('submit', function(event) {
-                event.preventDefault();
+            $('#metrics-form').on('submit', function(e) {
+                e.preventDefault();
+
                 var url = $('#url').val();
                 var categories = [];
                 $('input[name="categories[]"]:checked').each(function() {
                     categories.push($(this).val());
                 });
                 var strategy = $('#strategy').val();
-                console.log('Submitted');
-                console.log('Url:', url);
-                console.log('Categories:', categories);
-                console.log('Strategy:', strategy);
+
+                $.ajax({
+                    url: 'api/metrics',
+                    method: 'POST',
+                    data: {
+                        url: url,
+                        categories: categories,
+                        strategy: strategy,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(xhr) {
+                        console.error(xhr.responseText);
+                    }
+                });
             });
         });
     </script>
