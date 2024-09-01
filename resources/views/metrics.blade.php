@@ -15,11 +15,12 @@
         </style>
         <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body class="container">
         <header class="container h100">
@@ -69,8 +70,12 @@
             </nav>
         </header>
         <main>
-            <section id="metrics-results">
-                <p>TODO TABLE</p>
+            <section id="metrics-results" class="mt-5">
+                <div>
+                    <canvas id="metrics-chart"></canvas>
+                </div>
+
+                <button id="save-metric-run" class="btn btn-primary mt-3" style="display:none;">Save Metric Run</button>
             </section>
         </main>
     </body>
@@ -81,6 +86,34 @@
                 width: 'resolve',
             });
 
+            // chart render function
+            function renderCharts(data) {
+                const categories = ['PERFORMANCE', 'ACCESSIBILITY', 'BEST PRACTICES', 'SEO', 'PWA'];
+                const scores = categories.map(category => (data[category] * 100) ?? 0);
+                const colors = ['#4caf50', '#2196f3', '#ffeb3b', '#ff5722', '#9c27b0'];
+
+                const ctx = document.getElementById('metrics-chart');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: categories,
+                        datasets: [{
+                            label: 'Results for ' + data.url,
+                            data: scores,
+                            backgroundColor: colors,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+
             // form submission handler
             $('#metrics-form').on('submit', function(e) {
                 e.preventDefault();
@@ -90,12 +123,12 @@
                     url: 'api/metrics',
                     data: $(this).serialize(),
                     success: function (response) {
-                        console.log(response);
-
-                        localStorage.setItem('metricsData', JSON.stringify(response.data));
+                        const data = response.data
+                        renderCharts(data);
+                        localStorage.setItem('metricsData', JSON.stringify(data));
                     },
-                    error: function(xhr) {
-                        console.error(xhr.responseText);
+                    error: function (xhr, status, error) {
+                        console.error('An error occurred: ' + error);
                     }
                 });
             });
