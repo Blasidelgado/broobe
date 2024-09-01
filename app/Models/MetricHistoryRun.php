@@ -15,7 +15,8 @@ class MetricHistoryRun extends Model
         'pwa_metric',
         'performance_metric',
         'seo_metric',
-        'best_practices_metric'
+        'best_practices_metric',
+        'strategy_id',
     ];
 
     /**
