@@ -26,8 +26,8 @@ class MetricsController extends Controller
     {
         $validated = $request->validate([
             'url' => 'required|url',
-            'categories' => 'required|array',
-            'strategy' => 'required|string'
+            'categories' => 'required|array|in:' . implode(',', config('const.categories')),
+            'strategy' => 'required|string|in:' . implode(',', config('const.strategies'))
         ]);
 
         try {
