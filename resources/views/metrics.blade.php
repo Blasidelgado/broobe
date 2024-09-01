@@ -85,24 +85,14 @@
             $('#metrics-form').on('submit', function(e) {
                 e.preventDefault();
 
-                var url = $('#url').val();
-                var categories = [];
-                $('input[name="categories[]"]:checked').each(function() {
-                    categories.push($(this).val());
-                });
-                var strategy = $('#strategy').val();
-
                 $.ajax({
+                    type: 'POST',
                     url: 'api/metrics',
-                    method: 'POST',
-                    data: {
-                        url: url,
-                        categories: categories,
-                        strategy: strategy,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
+                    data: $(this).serialize(),
+                    success: function (response) {
                         console.log(response);
+
+                        localStorage.setItem('metricsData', JSON.stringify(response.data));
                     },
                     error: function(xhr) {
                         console.error(xhr.responseText);
