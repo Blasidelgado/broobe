@@ -18,10 +18,8 @@ return new class extends Migration
             $table->float('performance_metric', 5, 2);
             $table->float('seo_metric', 5, 2);
             $table->float('best_practices_metric', 5, 2);
-            $table->tinyInteger('strategy_id');
+            $table->foreignId('strategy_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-
-            $table->foreign('strategy_id')->references('id')->on('strategies')->onDelete('cascade');
         });
     }
 
