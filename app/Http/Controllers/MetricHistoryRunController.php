@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\MetricHistoryRun;
 use App\Services\MetricHistoryRunService;
 use Exception;
 
@@ -13,6 +14,12 @@ class MetricHistoryRunController extends Controller
     public function __construct(MetricHistoryRunService $metricHistoryRunService)
     {
         $this->metricHistoryRunService = $metricHistoryRunService;
+    }
+
+    public function index()
+    {
+        $metrics = MetricHistoryRun::with('strategy')->get();
+        return view('history', compact('metrics'));
     }
 
     public function store(Request $request)

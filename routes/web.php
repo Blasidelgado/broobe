@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MetricsController;
+use App\Http\Controllers\MetricHistoryRunController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,3 +16,4 @@ use App\Http\Controllers\MetricsController;
 */
 
 Route::get('/', [MetricsController::class, 'index']);
+Route::get('/history', [MetricHistoryRunController::class, 'index']);
