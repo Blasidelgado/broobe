@@ -78,6 +78,7 @@
         </header>
         <main>
             <section class="my-3">
+                <div id="error-messages" class="alert alert-danger d-none" role="alert"></div>
                 <form id="metrics-form">
                     @csrf
                     <div id="main-form" class="d-flex row">
@@ -182,6 +183,18 @@
                 hideLoader();
             });
 
+            // user error messages
+            function showErrorMessages(message) {
+                const errorMessages = $('#error-messages');
+
+                errorMessages.html(message);
+                errorMessages.removeClass('d-none');
+            }
+
+            function hideErrorMessages() {
+                $('#error-messages').addClass('d-none').empty();
+            }
+
             // strategies select
             $('#strategy').select2({
                 width: 'resolve',
@@ -218,6 +231,7 @@
             // form submission handler
             $('#metrics-form').on('submit', function(e) {
                 e.preventDefault();
+                hideErrorMessages();
 
                 $.ajax({
                     type: 'POST',
@@ -238,7 +252,7 @@
                         $('#save-metrics-btn').show();
                     },
                     error: function(xhr, status, error) {
-                        console.error('An error occurred: ' + error);
+                        showErrorMessages(xhr.responseJSON.message);
                     }
                 });
             });
