@@ -26,10 +26,10 @@ class MetricResource extends JsonResource
 
         foreach ($possibleCategories as $category) {
             if (isset($categoriesFromApi[$category])) {
-                $categoryKey = strtoupper(str_replace('-', ' ', $category));
+                $categoryKey = strtoupper(str_replace('-', '_', $category));
                 $result[$categoryKey] = $categoriesFromApi[$category]['score'];
             } else {
-                $categoryKey = strtoupper(str_replace('-', ' ', $category));
+                $categoryKey = strtoupper(str_replace('-', '_', $category));
                 $result[$categoryKey] = null;
             }
         }

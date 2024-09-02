@@ -75,7 +75,7 @@
                     <canvas id="metrics-chart"></canvas>
                 </div>
 
-                <button id="save-metric-run" class="btn btn-primary mt-3" style="display:none;">Save Metric Run</button>
+                <button id="save-metrics-btn" class="btn btn-primary mt-3" style="display:none;">Save Metric Run</button>
             </section>
         </main>
     </body>
@@ -126,18 +126,45 @@
                         $('#metrics-form').trigger('reset');
                         $('#metrics-chart').remove();
                         $('#metrics-results').prepend('<canvas id="metrics-chart"></canvas>');
-
                         const data = response.data;
-                        renderCharts(data);
-                        $('#save-metric-run').show();
-
                         localStorage.setItem('metricsData', JSON.stringify(data));
+
+                        if (data['BEST_PRACTICES']) {
+                            data['BEST PRACTICES'] = data['BEST_PRACTICES'];
+                            delete data['BEST_PRACTICES'];
+                        }
+
+                        renderCharts(data);
+
+                        $('#save-metrics-btn').show();
                     },
                     error: function(xhr, status, error) {
                         console.error('An error occurred: ' + error);
                     }
                 });
             });
+
+            // save metrics button handler
+            $('#save-metrics-btn').on('click', function() {
+                const metricsData = JSON.parse(localStorage.getItem('metricsData'));
+
+                if (metricsData) {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'api/history',
+                        data: metricsData,
+                        success: function(response) {
+                            alert(response.message);
+                            localStorage.removeItem('metricsData');
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('An error occurred while saving metrics: ' + error);
+                        }
+                    });
+                } else {
+                    alert('No metrics data found to save.');
+                }
+    });
         });
     </script>
 </html>
