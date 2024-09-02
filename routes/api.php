@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MetricsController;
+use App\Http\Controllers\MetricHistoryRunController;
 
 
 /*
@@ -17,3 +18,4 @@ use App\Http\Controllers\MetricsController;
 */
 
 Route::post('/metrics', [MetricsController::class, 'getMetrics']);
+Route::post('/history', [MetricHistoryRunController::class, 'store']);
