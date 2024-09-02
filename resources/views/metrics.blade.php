@@ -178,6 +178,10 @@
                 hideLoader();
             });
 
+            $(document).ajaxError(function(){
+                hideLoader();
+            });
+
             // strategies select
             $('#strategy').select2({
                 width: 'resolve',
