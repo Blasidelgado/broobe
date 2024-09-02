@@ -19,7 +19,7 @@ Ensure you have Docker and Docker Compose installed on your system.
    cd <PROJECT_DIRECTORY_NAME>
    ```
 2. **Start the Project**
-    `docker-compose up -ddocker-compose up`
+    `docker-compose up --build`
 
 3. **Access the Laravel Container**
     `docker-compose exec app bash`
