@@ -15,7 +15,24 @@
         <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     </head>
     <body>
-        <div class="container mt-5">
+        <header class="container h100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12 text-center">
+                    <h1 class="fw-light">{{ config('app.name') }}</h1>
+                </div>
+            </div>
+            <nav class="navbar">
+                <ul class="nav nav-underline d-flex justify-content-evenly w-100">
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="/">Load Metrics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('history') ? 'active' : '' }}" href="/history">Metric History</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <main class="container mt-5">
             <h2>Metric History</h2>
             <table id="metricsTable" class="table table-striped" style="width:100%">
                 <thead>
@@ -45,7 +62,7 @@
                     @endforeach
                 </tbody>
             </table>
-        </div>
+        </main>
         <script>
             $(document).ready(function() {
                 $('#metricsTable').DataTable({
