@@ -78,7 +78,8 @@
         </header>
         <main>
             <section class="my-3">
-                <div id="error-messages" class="alert alert-danger d-none" role="alert"></div>
+            <div id="success-messages" class="alert alert-success d-none" role="alert"></div>
+            <div id="error-messages" class="alert alert-danger d-none" role="alert"></div>
                 <form id="metrics-form">
                     @csrf
                     <div id="main-form" class="d-flex row">
@@ -183,7 +184,7 @@
                 hideLoader();
             });
 
-            // user error messages
+            // user messages
             function showErrorMessages(message) {
                 const errorMessages = $('#error-messages');
 
@@ -193,6 +194,17 @@
 
             function hideErrorMessages() {
                 $('#error-messages').addClass('d-none').empty();
+            }
+
+            function showSuccessMessages(message) {
+                const successMessages = $('#success-messages');
+
+                successMessages.html(message);
+                successMessages.removeClass('d-none');
+            }
+
+            function hideSuccessMessages() {
+                $('#success-messages').addClass('d-none').empty();
             }
 
             // strategies select
@@ -232,6 +244,7 @@
             $('#metrics-form').on('submit', function(e) {
                 e.preventDefault();
                 hideErrorMessages();
+                hideSuccessMessages();
 
                 $.ajax({
                     type: 'POST',
@@ -257,7 +270,6 @@
                 });
             });
 
-            // save metrics button handler
             $('#save-metrics-btn').on('click', function() {
                 const metricsData = JSON.parse(localStorage.getItem('metricsData'));
 
@@ -268,13 +280,14 @@
                         data: metricsData,
                         success: function(response) {
                             clearPage();
+                            showSuccessMessages(response.message);
                             localStorage.removeItem('metricsData');
-                            alert(response.message);
                         },
                         error: function(xhr, status, error) {
                             let response = JSON.parse(xhr.responseText);
 
-                            alert('An error occurred while saving metrics: ' + response.message);
+                            hideSuccessMessages();
+                            showErrorMessages(xhr.responseJSON.message);
 
                             console.error('An error occurred while saving metrics: ' + error);
                         }
