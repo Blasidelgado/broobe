@@ -95,7 +95,7 @@
                                         <div class="form-check form-check-inline mx-2">
                                             <input id="{{ $category->name }}" class="form-check-input" type="checkbox" name="categories[]" value="{{ $category->name }}">
                                             <label class="form-check-label" for="{{ $category->name }}">
-                                                {{ str_replace('_', '-', $category->name) }}
+                                                {{ str_replace('_', ' ', $category->name) }}
                                             </label>
                                         </div>
                                     @endforeach
