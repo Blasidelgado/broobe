@@ -81,6 +81,13 @@
     </body>
     <script>
         $(document).ready(function() {
+            // clear function
+            function clearPage() {
+                $('#metrics-form').trigger('reset');
+                $('#metrics-chart').remove();
+                $('#metrics-results').prepend('<canvas id="metrics-chart"></canvas>');
+            }
+
             // strategies select
             $('#strategy').select2({
                 width: 'resolve',
@@ -123,9 +130,7 @@
                     url: 'api/metrics',
                     data: $(this).serialize(),
                     success: function(response) {
-                        $('#metrics-form').trigger('reset');
-                        $('#metrics-chart').remove();
-                        $('#metrics-results').prepend('<canvas id="metrics-chart"></canvas>');
+                        clearPage();
                         const data = response.data;
                         localStorage.setItem('metricsData', JSON.stringify(data));
 
@@ -154,17 +159,20 @@
                         url: 'api/history',
                         data: metricsData,
                         success: function(response) {
-                            alert(response.message);
+                            clearPage();
                             localStorage.removeItem('metricsData');
+                            alert(response.message);
                         },
                         error: function(xhr, status, error) {
+                            let response = JSON.parse(xhr.responseText);
+
+                            alert('An error occurred while saving metrics: ' + response.message);
+
                             console.error('An error occurred while saving metrics: ' + error);
                         }
                     });
-                } else {
-                    alert('No metrics data found to save.');
                 }
-    });
+            });
         });
     </script>
 </html>
