@@ -18,7 +18,10 @@ class MetricHistoryRunController extends Controller
 
     public function index()
     {
-        $metrics = MetricHistoryRun::with('strategy')->get();
+        $metrics = MetricHistoryRun::with('strategy')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return view('history', compact('metrics'));
     }
 
