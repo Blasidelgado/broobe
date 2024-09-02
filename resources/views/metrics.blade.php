@@ -4,15 +4,6 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ config('app.name') }}</title>
-        <style>
-            .fieldset-title {
-                font-size: 0.8rem;
-            }
-            select {
-                width: 100%;
-                background-color: red;
-            }
-        </style>
         <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -21,6 +12,38 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <style>
+            .fieldset-title {
+                font-size: 0.8rem;
+            }
+            select {
+                width: 100%;
+                background-color: red;
+            }
+            .nav-link {
+            position: relative;
+            color: #000;
+            transition: color 0.3s ease;
+            }
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                background-color: #000;
+                left: 50%;
+                bottom: -5px;
+                transition: width 0.3s ease, left 0.3s ease;
+            }
+            .nav-link:hover::after {
+                width: 100%;
+                left: 0;
+            }
+            .nav-link.active::after {
+                width: 100%;
+                left: 0;
+            }
+        </style>
     </head>
     <body class="container">
         <header class="container h100">
@@ -29,7 +52,19 @@
                     <h1 class="fw-light">{{ config('app.name') }}</h1>
                 </div>
             </div>
-            <nav class="my-3">
+            <nav class="navbar">
+                <ul class="nav nav-underline d-flex justify-content-evenly w-100">
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="/">Load Metrics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('history') ? 'active' : '' }}" href="/history">Metric History</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <section class="my-3">
                 <form id="metrics-form">
                     @csrf
                     <div id="main-form" class="d-flex row">
@@ -67,9 +102,7 @@
                         <button type="submit" class="btn btn-primary">Get Metrics</button>
                     </div>
                 </form>
-            </nav>
-        </header>
-        <main>
+            </section>
             <section id="metrics-results" class="mt-5">
                 <div>
                     <canvas id="metrics-chart"></canvas>
