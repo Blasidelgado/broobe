@@ -4,15 +4,17 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Metric History</title>
+        <!-- Datatable installation -->
         <link rel="stylesheet" href="https://cdn.datatables.net/2.1.5/css/dataTables.dataTables.css" />
         <script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://cdn.datatables.net/2.1.5/css/dataTables.bootstrap5.css" rel="stylesheet">
+        <!-- Bootstrap js -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
         <script src="https://cdn.datatables.net/2.1.5/js/dataTables.bootstrap5.js"></script>
         <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+        <!-- Boostrap css -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.datatables.net/2.1.5/css/dataTables.bootstrap5.css" rel="stylesheet">
     </head>
     <body>
         <header class="container h100">
@@ -34,7 +36,7 @@
         </header>
         <main class="container mt-5">
             <h2>Metric History</h2>
-            <table id="metricsTable" class="table table-striped" style="width:100%">
+            <table id="metrics-table" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
                         <th>URL</th>
@@ -65,10 +67,13 @@
         </main>
         <script>
             $(document).ready(function() {
-                $('#metricsTable').DataTable({
+                $('#metrics-table').DataTable({
                     responsive: true
                 });
             });
         </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
+        <script src="https://cdn.datatables.net/2.1.5/js/dataTables.bootstrap5.js"></script>
     </body>
 </html>
