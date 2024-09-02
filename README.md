@@ -19,13 +19,14 @@ Ensure you have Docker and Docker Compose installed on your system.
    cd <PROJECT_DIRECTORY_NAME>
    ```
 2. **Start the Project**
-    `docker-compose up --build`
+    `docker-compose build`
+    `docker-compose up -d`
 
-3. **Access the Laravel Container**
+4. **Access the Laravel Container**
     `docker-compose exec app bash`
 
-4. **Run Migrations and Seeders**
+5. **Run Migrations and Seeders**
     `php artisan migrate --seed`
 
-5. **Access Application**
+6. **Access Application**
     Open your browser and navigate to http://localhost:8000 (or the URL configured in your environment) to check that the application is running.
