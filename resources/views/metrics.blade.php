@@ -10,6 +10,7 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.0.2/spin.min.js"></script>
         <style>
             .fieldset-title {
                 font-size: 0.8rem;
@@ -41,9 +42,23 @@
                 width: 100%;
                 left: 0;
             }
+            #loader {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            display: none;
+            }
         </style>
     </head>
     <body class="container">
+        <div id="loader"></div>
         <header class="container h100">
             <div class="row h-100 align-items-center">
                 <div class="col-12 text-center">
@@ -105,7 +120,6 @@
                 <div>
                     <canvas id="metrics-chart"></canvas>
                 </div>
-
                 <button id="save-metrics-btn" class="btn btn-primary mt-3" style="display:none;">Save Metric Run</button>
             </section>
         </main>
@@ -119,6 +133,50 @@
                 $('#save-metrics-btn').hide();
                 $('#metrics-results').prepend('<canvas id="metrics-chart"></canvas>');
             }
+
+            // spinner
+            var opts = {
+                lines: 13,
+                length: 28,
+                width: 14,
+                radius: 42,
+                scale: 1,
+                corners: 1,
+                color: '#3498db',
+                opacity: 0.25,
+                rotate: 0,
+                direction: 1,
+                speed: 1,
+                trail: 60,
+                fps: 20,
+                zIndex: 2e9,
+                className: 'spinner',
+                top: '50%',
+                left: '50%',
+                shadow: false,
+                hwaccel: false,
+                position: 'absolute'
+            };
+
+            var target = document.getElementById('loader');
+            var spinner = new Spinner(opts).spin(target);
+
+            function showLoader() {
+                $('#loader').show();
+            }
+
+            function hideLoader() {
+                $('#loader').hide();
+            }
+
+            // ajax loader management
+            $(document).ajaxStart(function(){
+                showLoader();
+            });
+
+            $(document).ajaxComplete(function(){
+                hideLoader();
+            });
 
             // strategies select
             $('#strategy').select2({
