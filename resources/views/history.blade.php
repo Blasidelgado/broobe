@@ -4,13 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Metric History</title>
-        <!-- Datatable installation -->
-        <link rel="stylesheet" href="https://cdn.datatables.net/2.1.5/css/dataTables.dataTables.css" />
-        <script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
         <!-- Bootstrap js -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
-        <script src="https://cdn.datatables.net/2.1.5/js/dataTables.bootstrap5.js"></script>
         <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
         <!-- Boostrap css -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
