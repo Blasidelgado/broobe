@@ -116,6 +116,7 @@
             function clearPage() {
                 $('#metrics-form').trigger('reset');
                 $('#metrics-chart').remove();
+                $('#save-metrics-btn').hide();
                 $('#metrics-results').prepend('<canvas id="metrics-chart"></canvas>');
             }
 
